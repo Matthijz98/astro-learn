@@ -1,16 +1,32 @@
 ---
+// src/pages/index.astro
+import {getCollection, getEntry} from 'astro:content';
 
+// Get all the courses from the collection
+const courses = await getCollection('courses');
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="generator" content={Astro.generator}/>
+    <title>Astro</title>
+</head>
+<body>
+<div class="container mx-auto p-4">
+    <h1 class="text-4xl font-bold text-center">Welcome to Astro Courses</h1>
+    <p class="text-xl text-gray-600 text-center">Learn web development with Astro and other technologies</p>
+    <div class="grid grid-cols-3 gap-4 mt-8">
+        {courses.map((course) => (
+                <div class="card border border-gray-300 rounded shadow p-4">
+                    <h2 class="text-2xl font-semibold">{course.title}</h2>
+                    <p class="text-gray-500">{course.description}</p>
+                    <a href={course.slug} class="button bg-blue-500 text-white rounded px-4 py-2 mt-4">Go to Course</a>
+                </div>
+            ))}
+            </div>
+            </div>
+            </body>
+            </html>

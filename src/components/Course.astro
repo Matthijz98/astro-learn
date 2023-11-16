@@ -1,0 +1,41 @@
+---
+// src/components/Course.astro
+import {getCollection} from 'astro/content';
+
+// Get the course data from the collection
+const course = getCollection('courses', {
+    // Filter by the current slug
+    where: {
+        slug: Astro.request.params.slug,
+    },
+    // Get the nav property
+    props: ['nav'],
+}).data[0];
+
+// Parse the nav file as JSON
+const nav = JSON.parse(Astro.fetchContent(course.nav));
+---
+
+<aside>
+    <h2>Course Navigation</h2>
+    <ul>
+        {nav.map((item) => (
+                <li>
+                    <a href={item.url}>{item.title}</a>
+                    {item.children && (
+                            <ul>
+                                {item.children.map((child) => (
+                                        <li>
+                                            <a href={child.url}>{child.title}</a>
+                                        </li>
+                                ))}
+                            </ul>
+                    )}
+                </li>
+        ))}
+    </ul>
+</aside>
+
+<main>
+    <Astro.content/>
+</main>
